@@ -14715,7 +14715,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
@@ -14745,7 +14745,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">API_URL</span> <span class="o">=</span> <span class="s1">&#39;https://api.clashroyale.com/v1&#39;</span>
@@ -14776,7 +14776,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">to_datetime</span><span class="p">(</span><span class="n">date_str</span><span class="p">):</span>
@@ -14812,7 +14812,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">clans_gen</span><span class="p">(</span><span class="n">num_clans</span><span class="p">):</span>
@@ -14873,7 +14873,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">player_tags_from_clan</span><span class="p">(</span><span class="n">clan_tag</span><span class="p">):</span>
@@ -14939,6 +14939,18 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>For each battle, we need to specify what data to put in our dataframe and how to parse it. I first filter out any battles that aren't Ladder matches or that occurred before the recent update. I choose to keep the time information, the trophy count, deck, and score for both players, whether or not the player won, and an ID to uniquely identify each battle by its time and player tag. (The assumption is that no two matches will be played by the same player at the same time, leading to a unique value). We then add this to a 1-row dataframe and append it to an existing dataframe for every match.</p>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14948,42 +14960,49 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">add_battle_to_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">battle</span><span class="p">):</span>
-    <span class="c1"># Check for ranked battle</span>
-    <span class="k">if</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;PvP&#39;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        df (DataFrame): DataFrame to accumulate match info</span>
+<span class="sd">        battle (dictionary): Match information returned from the CR API</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        df (DataFrame): df with an added row containing the new battle&#39;s information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;gameMode&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Ladder&#39;</span><span class="p">:</span> <span class="c1"># Verify ladder match</span>
         <span class="k">return</span> <span class="n">df</span>
-    <span class="c1"># Check if match is after most recent update</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span><span class="n">battle</span><span class="p">[</span><span class="s1">&#39;battleTime&#39;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="n">CUTOFF_TIME</span><span class="p">:</span>
+    
+    <span class="n">time</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span><span class="n">battle</span><span class="p">[</span><span class="s1">&#39;battleTime&#39;</span><span class="p">])</span> 
+    <span class="k">if</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="n">CUTOFF_TIME</span><span class="p">:</span> <span class="c1"># Check if match is after most recent update</span>
         <span class="k">return</span> <span class="n">df</span>
-    <span class="c1"># Create row to append</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-    <span class="c1"># Add time column</span>
-    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="p">]</span>
+    
+    <span class="n">row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span> <span class="c1"># Create row to append</span>
+    
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="c1"># Add time column</span>
+    
     <span class="c1"># Get player and opponent data</span>
     <span class="n">player</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">opponent</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">row</span><span class="p">[</span><span class="s1">&#39;player_trophies&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;startingTrophies&#39;</span><span class="p">]</span>
-        <span class="n">row</span><span class="p">[</span><span class="s1">&#39;opponent_trophies&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;startingTrophies&#39;</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">df</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;player_trophies&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;startingTrophies&#39;</span><span class="p">]</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;opponent_trophies&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;startingTrophies&#39;</span><span class="p">]</span>
+
     <span class="c1"># Get name of cards for decks on each side</span>
     <span class="n">player_deck</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;cards&#39;</span><span class="p">]]</span>
     <span class="n">opponent_deck</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;cards&#39;</span><span class="p">]]</span>
-    <span class="c1"># Conver to tuple and sort so elements are hashable, compatible with groupby</span>
+    <span class="c1"># Convert to tuple and sort so elements are hashable, compatible with groupby</span>
     <span class="n">row</span><span class="p">[</span><span class="s1">&#39;player_deck&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">player_deck</span><span class="p">))]</span>
     <span class="n">row</span><span class="p">[</span><span class="s1">&#39;opponent_deck&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">opponent_deck</span><span class="p">))]</span>
-    <span class="c1"># Get final score for both sides</span>
+
+    <span class="c1"># Get final score for both sides and whether player won</span>
     <span class="n">row</span><span class="p">[</span><span class="s1">&#39;player_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>
     <span class="n">row</span><span class="p">[</span><span class="s1">&#39;opponent_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>
     <span class="n">row</span><span class="p">[</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>\
                     <span class="k">else</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>\
                     <span class="k">else</span> <span class="kc">None</span>
+
     <span class="c1"># Generate a unique ID for this battle</span>
     <span class="n">row</span><span class="p">[</span><span class="s1">&#39;battle_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">battle</span><span class="p">[</span><span class="s1">&#39;battleTime&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;tag&#39;</span><span class="p">])</span>
-
-    <span class="c1"># Add row to battles DataFrame</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Add row to DataFrame</span>
 </pre></div>
 
      </div>
@@ -14991,6 +15010,18 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Now we can tie all these together into a single nested loop. We keep a DataFrame <code>battles</code> with every row that's added. Note that for every battle, we add the battle both from the player's perspective and from the opponent's perspective. This is to make analysis much easier later on.</p>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15001,17 +15032,19 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">battles</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
+<span class="c1"># Loop through clans, players, matches</span>
 <span class="k">for</span> <span class="n">clan_tag</span> <span class="ow">in</span> <span class="n">clans_gen</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">player_tag</span> <span class="ow">in</span> <span class="n">player_tags_from_clan</span><span class="p">(</span><span class="n">clan_tag</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">battle</span> <span class="ow">in</span> <span class="n">battles_from_player</span><span class="p">(</span><span class="n">player_tag</span><span class="p">):</span>
-            <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span>
+            <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span> <span class="c1"># Add battle</span>
 
+            <span class="c1"># Swap positions</span>
             <span class="n">player</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span>
             <span class="n">opponent</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">]</span>
             <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span>
             <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span>
 
-            <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span>
+            <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span> <span class="c1"># Add swapped battle</span>
 </pre></div>
 
      </div>
