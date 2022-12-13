@@ -14659,7 +14659,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Data-Collection">Data Collection<a class="anchor-link" href="#Data-Collection">&#182;</a></h2>
+<h2 id="Data-Collection-and-Parsing">Data Collection and Parsing<a class="anchor-link" href="#Data-Collection-and-Parsing">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14672,6 +14672,17 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>There aren't a lot of datasets out there for Clash Royale matches, and the ones that exist are very outdated. This is an issue because Supercell recently <a href="https://clashroyale.com/blog/release-notes/new-update-october-2022.html">released</a> new cards and mechanics, which would have meaningful effects on the data and conclusions. Thus, I chose to create my own by scraping Clash Royale's <a href="https://developer.clashroyale.com/#/">developer API</a>. This will allow me to get data on millions of matches from the past few days alone.</p>
 
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Clan-Approach">Clan Approach<a class="anchor-link" href="#Clan-Approach">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -14740,7 +14751,267 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">API_URL</span> <span class="o">=</span> <span class="s1">&#39;https://api.clashroyale.com/v1&#39;</span>
 <span class="n">API_TOKEN</span> <span class="o">=</span> <span class="s1">&#39;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjQ5NGIxNDJjLWNmZGYtNGE2NS04NzUwLWIxZjg1YTYyZTRiZiIsImlhdCI6MTY3MDczMDA1OSwic3ViIjoiZGV2ZWxvcGVyL2I2MGMwYTQ2LTNkYjItMWM3ZC03YTFhLWJlNWVmMmMwMjQ0YSIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxMjkuMi4xODEuMTMyIl0sInR5cGUiOiJjbGllbnQifV19.Kj8av7MERENbYuj_OgWRPAhg1W49AX87asOZoVwnXC-1IB0LDKyjxTMvVfRwN9jJY_QL0OtHCfSPklC45wUclQ&#39;</span>
 <span class="n">AUTH_HEADER</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">API_TOKEN</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
-<span class="n">CUTOFF_TIME</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">CUTOFF_TIME</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="c1"># Midnight December 8</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>I define a helper function to convert time from the format used by the API into a <code>datetime</code> object.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">to_datetime</span><span class="p">(</span><span class="n">date_str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        date_str (string): A date in the format given by the CR API</span>
+<span class="sd">    Yields:</span>
+<span class="sd">        date (datetime): The same date as a datetime object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">T%H%M%S.000Z&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To avoid storing information for hundreds or thousands of clans in memory, I create a generator for clan tags. The <code>/clans</code> API endpoint returns information about clans, including the clan tag, which is a string that uniquely identifies a Clan. We will need this later. I choose to generate clans with at least 40 members because the API requires at least one filter, and because this will help maximize the number of players I can get per call to the API.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">clans_gen</span><span class="p">(</span><span class="n">num_clans</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        num_clans (int): The maximum number of clans to return data for</span>
+<span class="sd">    Yields:</span>
+<span class="sd">        clan (dict): Clan tag for a single clan, according to</span>
+<span class="sd">        the format specified by the CR API.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">min_members</span> <span class="o">=</span> <span class="mi">40</span> <span class="c1"># Clans with at least 40 members</span>
+    <span class="n">num_per_query</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># Return 10 clans per call to avoid storing too much in memory</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">API_URL</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;/clans?minMembers=</span><span class="si">{</span><span class="n">min_members</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">num_per_query</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">AUTH_HEADER</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">clans</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span>
+    <span class="n">next_page</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;cursors&#39;</span><span class="p">][</span><span class="s1">&#39;after&#39;</span><span class="p">]</span> <span class="c1"># Data to allow paging</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Indicates whether or not we are on the last page</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_clans</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clans</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># If we have already output every clan on this page</span>
+            <span class="k">if</span> <span class="n">end</span><span class="p">:</span> <span class="c1"># If this was the last page, signal the end of iteration</span>
+                <span class="k">return</span>
+
+            <span class="c1"># Request the next page</span>
+            <span class="n">page_url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;&amp;after=</span><span class="si">{</span><span class="n">next_page</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">page_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">AUTH_HEADER</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">clans</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span>
+
+            <span class="k">try</span><span class="p">:</span> <span class="c1"># See if there is a page after this. If not, this is the last page</span>
+                <span class="n">next_page</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;cursors&#39;</span><span class="p">][</span><span class="s1">&#39;after&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="kc">True</span>
+        
+        <span class="k">yield</span> <span class="n">clans</span><span class="o">.</span><span class="n">pop</span><span class="p">()[</span><span class="s1">&#39;tag&#39;</span><span class="p">]</span> <span class="c1"># Yield clan information from our list</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Players also have unique tags that we can use to identify them. Once we have clan information, we can use the Clan's tag to generate a list of the tags of each member using the <code>/clans/{tag}/members</code> API endpoint. (<em>Note: <code>%23</code> and <code>[1:]</code> in any of the following code is because player and clan tags are of the format <code>#XXXXXXXX</code> (where X are alphanumeric), and that <code>#</code> needs to be URL encoded. Easier in my opinion to remove the <code>#</code> and add <code>%23</code> than to URL encode the entire string.</em>)</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">player_tags_from_clan</span><span class="p">(</span><span class="n">clan_tag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        clan_tag (string): The tag of the clan to search</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tags (list): The tags of valid players in the clan</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">url</span> <span class="o">=</span> <span class="n">API_URL</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;/clans/%23</span><span class="si">{</span><span class="n">clan_tag</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">/members&#39;</span> <span class="c1"># API call to get clan members</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">AUTH_HEADER</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List to store tags in </span>
+    <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]:</span> <span class="c1"># Loop through members</span>
+        <span class="c1"># If member has not been online since the update, no point in getting their matches</span>
+        <span class="k">if</span> <span class="n">to_datetime</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="s1">&#39;lastSeen&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">CUTOFF_TIME</span><span class="p">:</span>
+            <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="s1">&#39;tag&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">tags</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Now that we have players, we can easily get information about their recent battles. Supercell stores up to 35 battles for each player, which we can access using the <code>/players/{tag}/battlelog</code> API endpoint.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">battles_from_player</span><span class="p">(</span><span class="n">player_tag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        player_tag (string): The tag of the player to search</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        battles (list): The player&#39;s recent battles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">url</span> <span class="o">=</span> <span class="n">API_URL</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;/players/%23</span><span class="si">{</span><span class="n">player_tag</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">/battlelog&#39;</span>
+
+    <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">AUTH_HEADER</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">add_battle_to_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">battle</span><span class="p">):</span>
+    <span class="c1"># Check for ranked battle</span>
+    <span class="k">if</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;PvP&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="c1"># Check if match is after most recent update</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span><span class="n">battle</span><span class="p">[</span><span class="s1">&#39;battleTime&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="n">CUTOFF_TIME</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="c1"># Create row to append</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="c1"># Add time column</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="p">]</span>
+    <span class="c1"># Get player and opponent data</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">opponent</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">row</span><span class="p">[</span><span class="s1">&#39;player_trophies&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;startingTrophies&#39;</span><span class="p">]</span>
+        <span class="n">row</span><span class="p">[</span><span class="s1">&#39;opponent_trophies&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;startingTrophies&#39;</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="c1"># Get name of cards for decks on each side</span>
+    <span class="n">player_deck</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;cards&#39;</span><span class="p">]]</span>
+    <span class="n">opponent_deck</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;cards&#39;</span><span class="p">]]</span>
+    <span class="c1"># Conver to tuple and sort so elements are hashable, compatible with groupby</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;player_deck&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">player_deck</span><span class="p">))]</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;opponent_deck&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">opponent_deck</span><span class="p">))]</span>
+    <span class="c1"># Get final score for both sides</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;player_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;opponent_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>\
+                    <span class="k">else</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">opponent</span><span class="p">[</span><span class="s1">&#39;crowns&#39;</span><span class="p">]</span>\
+                    <span class="k">else</span> <span class="kc">None</span>
+    <span class="c1"># Generate a unique ID for this battle</span>
+    <span class="n">row</span><span class="p">[</span><span class="s1">&#39;battle_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">battle</span><span class="p">[</span><span class="s1">&#39;battleTime&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;tag&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Add row to battles DataFrame</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">battles</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">clan_tag</span> <span class="ow">in</span> <span class="n">clans_gen</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">player_tag</span> <span class="ow">in</span> <span class="n">player_tags_from_clan</span><span class="p">(</span><span class="n">clan_tag</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">battle</span> <span class="ow">in</span> <span class="n">battles_from_player</span><span class="p">(</span><span class="n">player_tag</span><span class="p">):</span>
+            <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span>
+
+            <span class="n">player</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span>
+            <span class="n">opponent</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">]</span>
+            <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span>
+            <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span>
+
+            <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span>
 </pre></div>
 
      </div>
