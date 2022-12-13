@@ -15102,6 +15102,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
                         <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">battles_from_player</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="s1">&#39;tag&#39;</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">players</span><span class="p">[</span><span class="n">interval</span><span class="p">]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;tag&#39;</span><span class="p">]</span> <span class="c1"># Add to players</span>
                     <span class="n">missing_intervals</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span> <span class="c1"># Remove from missing intervals</span>
+                    
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_intervals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># If we have found enough players, stop searching</span>
         <span class="k">break</span>
 </pre></div>
@@ -15148,22 +15149,28 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1"># Stores tags we have already visited</span>
 <span class="n">depth</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># How deep to traverse in the &#39;tree&#39;</span>
 <span class="n">battles</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span> <span class="c1"># Accumulates battle rows like before</span>
+
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">):</span> <span class="c1"># Loop through each layer</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">tag</span> <span class="o">=</span> <span class="n">current_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span> <span class="c1"># Make sure tag has not been visited</span>
             <span class="k">continue</span>
         <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+
         <span class="n">player_battles</span> <span class="o">=</span> <span class="n">battles_from_player</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="c1"># Get battles</span>
         <span class="k">for</span> <span class="n">battle</span> <span class="ow">in</span> <span class="n">player_battles</span><span class="p">:</span>
             <span class="n">next_queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;tag&#39;</span><span class="p">])</span> <span class="c1"># Add to queue</span>
+
             <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span> <span class="c1"># Add battle to the DataFrame</span>
             <span class="n">player</span><span class="p">,</span> <span class="n">opponent</span> <span class="o">=</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">],</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">]</span> <span class="c1"># Swap</span>
             <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">],</span> <span class="n">battle</span><span class="p">[</span><span class="s1">&#39;opponent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opponent</span><span class="p">,</span> <span class="n">player</span>
             <span class="n">battles</span> <span class="o">=</span> <span class="n">add_battle_to_df</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">battle</span><span class="p">)</span> <span class="c1"># Add swapped battle</span>
+
     <span class="n">battles</span> <span class="o">=</span> <span class="n">battles</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;battle_id&#39;</span><span class="p">])</span> <span class="c1"># Remove duplicate battles</span>
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">battles</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000000</span><span class="p">:</span> <span class="c1"># Check limit</span>
         <span class="k">break</span>
+    
     <span class="n">current_queue</span> <span class="o">=</span> <span class="n">next_queue</span> <span class="c1"># Shift queues</span>
     <span class="n">next_queue</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
