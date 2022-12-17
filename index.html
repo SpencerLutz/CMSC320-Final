@@ -15184,7 +15184,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As before, I initialize a DataFrame to store the battle data we get. I set the depth to 5, which at a rate of roughly 15 valid battles per player, should result in a few million battles. For each layer, I loop through <code>current_queue</code> until it is empty. I make sure the tag is new, and then I get the battles from that tag. I add the opponent for each battle to <code>next_queue</code> and add its data (if the battle is valid) to the DataFrame. After each layer, I remove all duplicates and check to see if we have at least 1 million battles. If not, I set <code>current_queue</code> to <code>next_queue</code> and clear <code>next_queue</code> for the next iteration.</p>
+<p>As before, I initialize a DataFrame to store the battle data we get. I set the depth to 5, which at a rate of roughly 15 valid battles per player should result in a few million battles. For each layer, I loop through <code>current_queue</code> until it is empty. I make sure the tag is new, and then I get the battles from that tag. I add the opponent for each battle to <code>next_queue</code> and add its data (if the battle is valid) to the DataFrame. After each layer, I remove all duplicates and check to see if we have at least 1 million battles. If not, I set <code>current_queue</code> to <code>next_queue</code> and clear <code>next_queue</code> for the next iteration.</p>
 
 </div>
 </div>
