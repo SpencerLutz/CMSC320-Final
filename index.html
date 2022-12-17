@@ -14814,7 +14814,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>To avoid storing information for hundreds or thousands of clans in memory, I create a generator for clan tags. The <code>/clans</code> API endpoint returns information about clans, including the clan tag, which is a string that uniquely identifies a Clan. We will need this later. I choose to generate clans with at least 40 members (max for a clan is 50) because the API requires at least one filter, and because this will help maximize the number of players I can get per call to the API.</p>
+<p>Next, I create a function to return a list of clan tags. The <code>/clans</code> API endpoint returns information about clans, including the clan tag, which is a string that uniquely identifies a Clan. We will need this later. I choose to return clans with at least 40 members (max for a clan is 50) because the API requires at least one filter, and because this will help maximize the number of players I can get per call to the API.</p>
 
 </div>
 </div>
@@ -14824,7 +14824,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[115]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[664]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_clans</span><span class="p">(</span><span class="n">num_clans</span><span class="p">):</span>
@@ -14832,7 +14832,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <span class="sd">    Parameters:</span>
 <span class="sd">        num_clans (int): The maximum number of clans to return tags for</span>
 <span class="sd">    Yields:</span>
-<span class="sd">        tag (string): Clan tag for a single clan</span>
+<span class="sd">        tags (list): List of clan tags</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">min_members</span> <span class="o">=</span> <span class="mi">40</span> <span class="c1"># Clans with at least 40 members</span>
